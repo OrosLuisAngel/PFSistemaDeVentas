@@ -1,0 +1,2509 @@
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Metro
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+
+    
+   /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      background: white;
+      color: #1a202c;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+    /* Scrollbar hide for horizontal scroll */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Container max width */
+    .container {
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    /* Top bar */
+    header.topbar {
+      background-color: #cc0000;
+      color: white;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25rem 1rem;
+      flex-wrap: wrap;
+    }
+    header.topbar .left,
+    header.topbar .right {
+      display: flex;
+      align-items: center;
+    }
+    header.topbar .left > * {
+      margin-right: 0.5rem;
+    }
+    header.topbar .logo {
+      height: 30px;
+      width: 80px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+    header.topbar .search-form {
+      flex-grow: 1;
+      max-width: 600px;
+      display: flex;
+      margin: 0 1rem;
+    }
+    header.topbar .search-form input[type="search"] {
+      flex-grow: 1;
+      border: 1px solid #cc0000;
+      border-right: none;
+      border-radius: 0.375rem 0 0 0.375rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      outline-offset: 2px;
+    }
+    header.topbar .search-form input[type="search"]:focus {
+      outline: 2px solid #cc0000;
+    }
+    header.topbar .search-form button {
+      background-color: #cc0000;
+      border-radius: 0 0.375rem 0.375rem 0;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    header.topbar .search-form button:hover,
+    header.topbar .search-form button:focus {
+      background-color: #990000;
+      outline: none;
+    }
+    header.topbar nav a,
+    header.topbar nav button {
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      margin-left: 1rem;
+      color: white;
+      transition: color 0.3s ease;
+    }
+    header.topbar nav a i,
+    header.topbar nav button i {
+      margin-right: 0.25rem;
+    }
+    header.topbar nav a:hover,
+    header.topbar nav button:hover {
+      text-decoration: underline;
+      color: #ff6666;
+    }
+    header.topbar nav button.close-btn {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 1rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+    /* Breadcrumb */
+    nav.breadcrumb {
+      font-size: 0.75rem;
+      color: #f87171;
+      padding: 0.5rem 1rem;
+      background-color: #fee2e2;
+    }
+    nav.breadcrumb ol {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+    }
+    nav.breadcrumb ol li {
+      display: flex;
+      align-items: center;
+    }
+    nav.breadcrumb ol li + li::before {
+      content: "/";
+      margin: 0 0.25rem;
+      color: #cc0000;
+      font-weight: 700;
+    }
+    nav.breadcrumb ol li.current {
+      color: #cc0000;
+      font-weight: 700;
+    }
+    /* Carousel container */
+    section.carousel {
+      position: relative;
+      max-width: 1280px;
+      margin: 1rem auto 2rem;
+      padding: 0 1rem;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      background-color: #cc0000;
+      min-height: 280px;
+    }
+    /* Carousel slides wrapper */
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      will-change: transform;
+    }
+    /* Each slide */
+    .carousel-slide {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 1rem;
+      box-sizing: border-box;
+      gap: 1rem;
+    }
+    /* Slide product */
+    .slide-product {
+      flex: 1 1 33.3333%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 0;
+    }
+    .slide-product img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 0.375rem;
+      object-fit: cover;
+      height: 180px;
+    }
+    .slide-product .label {
+      background-color: #f87171;
+      color: #cc0000;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.375rem;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .slide-product h3 {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: white;
+      margin: 0.25rem 0 0.125rem;
+      text-align: center;
+    }
+    .slide-product p.desc {
+      font-size: 0.875rem;
+      color: white;
+      margin: 0;
+      text-align: center;
+    }
+    .slide-product p.price {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: white;
+      margin: 0.25rem 0 0;
+      text-align: center;
+    }
+    .slide-product p.price del {
+      font-weight: 400;
+      font-size: 0.875rem;
+      margin-left: 0.5rem;
+      opacity: 0.8;
+      color: white;
+      text-decoration: line-through;
+    }
+    /* Carousel dots */
+    .carousel-dots {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+    .carousel-dots button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background-color: white;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    .carousel-dots button.active {
+      opacity: 1;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .slide-product img {
+        max-width: 100%;
+        height: auto;
+      }
+      .carousel-slide {
+        flex-direction: column;
+        align-items: center;
+      }
+      .slide-product {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+    /* Categories horizontal scroll */
+    section.categories {
+      max-width: 1280px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1rem;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+    .categories-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .categories-list::-webkit-scrollbar {
+      display: none;
+    }
+    .category-item {
+      flex: 0 0 auto;
+      width: 72px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #4a5568;
+      cursor: pointer;
+    }
+    .category-item img {
+      width: 48px;
+      height: 48px;
+      border-radius: 0.25rem;
+      object-fit: cover;
+      margin-bottom: 0.25rem;
+    }
+
+    
+    /* Offers horizontal scroll */
+    section.offers {
+      max-width: 1280px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1rem;
+      justify-content: center;
+      display: flex;
+    }
+    .offers-list {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .offers-list::-webkit-scrollbar {
+      display: none;
+    }
+    .offer-card {
+      flex: 0 0 auto;
+      width: 280px;
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .offer-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 0.375rem;
+    }
+    .offer-card h4 {
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin: 0;
+      text-align: center;
+    }
+    .offer-card p {
+      font-size: 1rem;
+      margin: 0;
+      text-align: center;
+    }
+    /* Discover section */
+    section.discover {
+      max-width: 1280px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      section.discover {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .discover-card {
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+    .discover-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 0.25rem;
+    }
+    .discover-card p {
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 0;
+    }
+    /* Promotions 20% */
+    section.promos-20 {
+      max-width: 1280px;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 768px) {
+      section.promos-20 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .promo-card {
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+    }
+    .promo-card img {
+      width: 200px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 0.25rem;
+    }
+    .promo-card p {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0;
+    }
+    /* Tabs */
+    section.tabs {
+      max-width: 1280px;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+    }
+    .tab-list {
+      display: flex;
+      border-bottom: 2px solid #f87171;
+      gap: 1rem;
+    }
+    .tab-list button {
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      border-bottom: 4px solid transparent;
+      color: #4a5568;
+      background: none;
+      cursor: pointer;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .tab-list button[aria-selected="true"] {
+      border-color: #cc0000;
+      color: #cc0000;
+    }
+    .tab-panel {
+      margin-top: 1rem;
+    }
+    /* Category grid inside tabs */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: #4a5568;
+      text-align: center;
+    }
+    @media (min-width: 640px) {
+      .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .category-grid a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+    }
+    .category-grid img {
+      width: 80px;
+      height: 80px;
+      border-radius: 0.25rem;
+      object-fit: cover;
+    }
+    /* Promo card inside tabs */
+    .promo-tab-card {
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      color: white;
+      max-width: 600px;
+      margin: 1rem auto 0;
+    }
+    @media (min-width: 768px) {
+      .promo-tab-card {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    .promo-tab-card img {
+      width: 280px;
+      height: 160px;
+      border-radius: 0.375rem;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .promo-tab-card .info {
+      flex-grow: 1;
+    }
+    .promo-tab-card .info h3 {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0 0 0.25rem 0;
+    }
+    .promo-tab-card .info p.desc {
+      font-size: 0.875rem;
+      margin: 0 0 0.5rem 0;
+    }
+    .promo-tab-card .info p.price {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .promo-tab-card .info p.price del {
+      font-weight: 400;
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      opacity: 0.8;
+      text-decoration: line-through;
+    }
+    .promo-tab-card .info button {
+      margin-top: 1rem;
+      background-color: white;
+      color: #cc0000;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 700;
+      font-size: 0.875rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .promo-tab-card .info button:hover,
+    .promo-tab-card .info button:focus {
+      background-color: #f87171;
+      outline: none;
+    }
+    /* Product cards grid */
+    .product-cards {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 0.5rem;
+    }
+    .product-cards::-webkit-scrollbar {
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .product-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 768px) {
+      .product-cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .product-card {
+      background: white;
+      border: 1px solid #f87171;
+      border-radius: 0.375rem;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-width: 160px;
+      flex-shrink: 0;
+    }
+    .product-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 0.375rem;
+    }
+    .product-card h4 {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .product-card p.old-price {
+      font-size: 0.75rem;
+      color: #718096;
+      text-decoration: line-through;
+      margin: 0;
+    }
+    .product-card p.price {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #cc0000;
+      margin: 0;
+    }
+    .product-card button {
+      margin-top: auto;
+      background-color: #cc0000;
+      color: white;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.25rem 0;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .product-card button:hover,
+    .product-card button:focus {
+      background-color: #990000;
+      outline: none;
+    }
+    /* App promotion banner */
+    section.app-promo {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 1.5rem 1rem;
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: white;
+    }
+    section.app-promo .text {
+      flex: 1 1 300px;
+    }
+    section.app-promo h2 {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0 0 0.25rem 0;
+    }
+    section.app-promo h3 {
+      font-weight: 900;
+      font-size: 2rem;
+      margin: 0 0 1rem 0;
+    }
+    section.app-promo button {
+      background-color: white;
+      color: #cc0000;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    section.app-promo button:hover,
+    section.app-promo button:focus {
+      background-color: #f87171;
+      outline: none;
+    }
+    section.app-promo .stores {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    section.app-promo .stores a img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      cursor: pointer;
+      filter: brightness(0) invert(1);
+    }
+    section.app-promo img.phone {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: none;
+    }
+    @media (min-width: 768px) {
+      section.app-promo img.phone {
+        display: block;
+      }
+    }
+    /* Footer legal text */
+    section.legal-text {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      font-size: 0.75rem;
+      color: #4a5568;
+      line-height: 1.4;
+    }
+    section.legal-text p {
+      margin-top: 0.5rem;
+    }
+    /* Footer icons */
+    section.footer-icons {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-around;
+      color: #cc0000;
+      font-weight: 700;
+      font-size: 0.75rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    section.footer-icons > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      min-width: 80px;
+    }
+    section.footer-icons i {
+      font-size: 1.5rem;
+    }
+    /* Newsletter subscription */
+    section.newsletter {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding: 1rem;
+      background-color: #cc0000;
+      border-radius: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: white;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    section.newsletter p {
+      margin: 0;
+      flex: 1 1 200px;
+    }
+    section.newsletter form {
+      display: flex;
+      flex: 1 1 300px;
+      max-width: 400px;
+    }
+    section.newsletter input[type="email"] {
+      flex-grow: 1;
+      border: 1px solid #cc0000;
+      border-radius: 0.375rem 0 0 0.375rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      outline-offset: 2px;
+      color: black;
+    }
+    section.newsletter input[type="email"]:focus {
+      outline: 2px solid #cc0000;
+    }
+    section.newsletter button {
+      background-color: white;
+      color: #cc0000;
+      font-weight: 700;
+      font-size: 0.875rem;
+      padding: 0 1rem;
+      border-radius: 0 0.375rem 0.375rem 0;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    section.newsletter button:hover,
+    section.newsletter button:focus {
+      background-color: #f87171;
+      outline: none;
+    }
+    /* Footer */
+    footer.footer {
+      background-color: #cc0000;
+      color: white;
+      padding: 2rem 1rem;
+      font-size: 0.75rem;
+    }
+    footer.footer .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media (min-width: 640px) {
+      footer.footer .footer-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    footer.footer .footer-logo {
+      width: 120px;
+      height: 40px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      filter: brightness(0) invert(1);
+    }
+    footer.footer h4 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    footer.footer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    footer.footer ul li {
+      margin-bottom: 0.25rem;
+    }
+    footer.footer ul li a {
+      color: white;
+      transition: color 0.3s ease;
+    }
+    footer.footer ul li a:hover {
+      color: #f87171;
+      text-decoration: underline;
+    }
+    footer.footer .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    footer.footer .social-icons a {
+      color: white;
+      font-size: 1.25rem;
+      transition: color 0.3s ease;
+    }
+    footer.footer .social-icons a:hover {
+      color: #f87171;
+    }
+
+  </style>
+
+</head>
+ <body>
+  <!-- Top bar -->
+  <header class="topbar" role="banner">
+   <div class="container left">
+    <button aria-label="Abrir menú" class="menu-btn" style="display:none;">
+     <i class="fas fa-bars">
+     </i>
+    </button>
+    <a aria-label="Inicio" class="logo-link" href="#">
+     <img alt="Logo Metro rojo con texto blanco" class="logo" height="30" src="https://storage.googleapis.com/a1aa/image/6f1ad149-a265-4165-2b14-dd70f5ba2a77.jpg" width="80"/>
+    </a>
+    <span class="catalogo" style="font-weight:700; font-size:0.75rem; margin-left:0.5rem; user-select:none;">
+     CATÁLOGO
+    </span>
+    <span class="a-plus" style="font-weight:700; font-size:0.75rem; margin-left:0.25rem; user-select:none;">
+     A+
+    </span>
+   </div>
+   <form aria-label="Buscar productos" class="search-form" role="search">
+    <input aria-label="Buscar productos, marcas y más" placeholder="Buscar productos, marcas y más..." required="" type="search"/>
+    <button aria-label="Buscar" type="submit">
+     <i class="fas fa-search">
+     </i>
+    </button>
+   </form>
+   <nav aria-label="Navegación principal" class="right">
+    <a aria-label="Mi cuenta" href="#">
+     <i class="fas fa-user">
+     </i>
+     Mi cuenta
+    </a>
+    <a aria-label="Tiendas" href="#">
+     <i class="fas fa-map-marker-alt">
+     </i>
+     Tiendas
+    </a>
+    <a aria-label="Mi carrito" href="#">
+     <i class="fas fa-shopping-cart">
+     </i>
+     Mi carrito
+    </a>
+    <button aria-label="Cerrar" class="close-btn">
+     ×
+    </button>
+   </nav>
+  </header>
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="breadcrumb">
+   <ol>
+    <li>
+     <a href="#">
+      Inicio
+     </a>
+    </li>
+    <li>
+     <a href="#">
+      Electro
+     </a>
+    </li>
+    <li aria-current="page" class="current">
+     Mega
+    </li>
+   </ol>
+  </nav>
+  <!-- Carousel -->
+  <section aria-label="Promociones principales" class="carousel">
+   <div aria-live="polite" class="carousel-slides" id="carouselSlides">
+    <!-- 15 slides, each with 3 products -->
+    <!-- We'll create 15 slides with 3 products each, total 45 products -->
+    <!-- For brevity, product images and text repeated with slight changes -->
+    <!-- Slide 1 -->
+    <div aria-label="Slide 1 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 50 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/ae8aa02c-9936-47be-e0dd-c20a6bb2cfaf.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 50"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,499
+       <del>
+        S/ 1,699
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 55 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/d2c8a361-c13c-45d4-6864-6266f07d9b8b.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 55"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 949
+       <del>
+        S/ 989
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/da42d3e0-b256-4c7d-eda3-9ccfff5ca86b.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 499
+      </p>
+     </div>
+    </div>
+    <!-- Slide 2 -->
+    <div aria-label="Slide 2 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 51 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/ef0a9a16-6049-4905-db14-baafad608186.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 51"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,599
+       <del>
+        S/ 1,799
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 56 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/0a597a1b-92d0-45e1-d0ab-b51475c06787.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 56"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 999
+       <del>
+        S/ 1,039
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 2 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/e23eedcb-64cd-4b6f-b1c6-c486eb70d89f.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 2
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 549
+      </p>
+     </div>
+    </div>
+    <!-- Slide 3 -->
+    <div aria-label="Slide 3 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 52 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/234820c0-bd5b-4839-b450-70af2b6dab33.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 52"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,699
+       <del>
+        S/ 1,899
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 57 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/87627155-9ffd-4330-abcf-117656100bff.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 57"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,049
+       <del>
+        S/ 1,089
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 3 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/6b6b34a4-18d8-4af2-6b5d-43640024677a.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 3
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 599
+      </p>
+     </div>
+    </div>
+    <!-- Slide 4 -->
+    <div aria-label="Slide 4 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 53 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/d519a5a1-f0ca-456b-17ae-20b66d126973.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 53"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,799
+       <del>
+        S/ 1,999
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 58 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/8d5f55b5-5a06-4762-0620-62d907ac05d9.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 58"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,099
+       <del>
+        S/ 1,139
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 4 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/c481d36c-edc8-4a97-c356-b124dd2578a6.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 4
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 649
+      </p>
+     </div>
+    </div>
+    <!-- Slide 5 -->
+    <div aria-label="Slide 5 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 54 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/65d2d3dc-4db3-4b02-2487-d33f1a757f06.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 54"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,899
+       <del>
+        S/ 2,099
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 59 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/69eec8d1-f37b-4331-ffba-5ed1ef01df42.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 59"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,149
+       <del>
+        S/ 1,189
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 5 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/f4dec49f-5c22-4202-9d9d-d310cec4f52c.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 5
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 699
+      </p>
+     </div>
+    </div>
+    <!-- Slide 6 -->
+    <div aria-label="Slide 6 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 55 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/c1159389-fd9c-49ee-813e-0a1615546562.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 55"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,999
+       <del>
+        S/ 2,199
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 60 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/83b90f71-c760-411e-d189-29441c8b817d.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 60"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,199
+       <del>
+        S/ 1,239
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 6 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/ff83658d-6ee5-491e-4e04-b4294a916da3.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 6
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 749
+      </p>
+     </div>
+    </div>
+    <!-- Slide 7 -->
+    <div aria-label="Slide 7 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 56 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/cf4abcc9-0b4d-412c-6c76-bcff1742411d.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 56"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,099
+       <del>
+        S/ 2,299
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 61 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/cbde0584-6008-41b6-4cec-c7263d68d2b1.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 61"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,249
+       <del>
+        S/ 1,289
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 7 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/bdcd7c89-b25c-4c47-ea93-9ccbfaca112d.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 7
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 799
+      </p>
+     </div>
+    </div>
+    <!-- Slide 8 -->
+    <div aria-label="Slide 8 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 57 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/f6143fb5-8271-493c-0ea8-32c717ae098b.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 57"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,199
+       <del>
+        S/ 2,399
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 62 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/4a15dfd6-576f-44a7-028f-38be02d98daf.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 62"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,299
+       <del>
+        S/ 1,339
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 8 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/25da3ed4-8264-4bf1-2882-c414faca9ed0.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 8
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 849
+      </p>
+     </div>
+    </div>
+    <!-- Slide 9 -->
+    <div aria-label="Slide 9 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 58 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/c3904ded-c7a6-42e6-3c68-ba5ea46c1e7d.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 58"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,299
+       <del>
+        S/ 2,499
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 63 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/ba714908-8e24-41a8-9253-4a50f28c6cf0.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 63"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,349
+       <del>
+        S/ 1,389
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 9 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/36d4c20a-1bed-4ae9-1313-3c373046c92d.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 9
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 899
+      </p>
+     </div>
+    </div>
+    <!-- Slide 10 -->
+    <div aria-label="Slide 10 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 59 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/8b901980-c1a4-4939-a57a-49e58aeef73e.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 59"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,399
+       <del>
+        S/ 2,599
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 64 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/af334e4e-d065-4319-b254-d9dea08b7d55.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 64"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,399
+       <del>
+        S/ 1,439
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 10 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/a993ec5e-6d0d-42b1-0627-dcdc41a09e59.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 10
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 949
+      </p>
+     </div>
+    </div>
+    <!-- Slide 11 -->
+    <div aria-label="Slide 11 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 60 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/f42f602e-f192-4f7f-cfc5-f68cb26bdee5.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 60"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,499
+       <del>
+        S/ 2,699
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 65 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/0f733051-7b83-472b-6ec2-a683b07049f3.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 65"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,449
+       <del>
+        S/ 1,489
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 11 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/066f5670-5176-4c91-4c62-15f8035538a4.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 11
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 999
+      </p>
+     </div>
+    </div>
+    <!-- Slide 12 -->
+    <div aria-label="Slide 12 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 61 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/54a6e091-55ba-4086-f983-cb2d3c3f6b28.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 61"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,599
+       <del>
+        S/ 2,799
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 66 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/36b87111-2084-4124-d2af-d588c2c36b15.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 66"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,499
+       <del>
+        S/ 1,539
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 12 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/131eb59e-0ef3-45da-ce6c-c3bbd3d8cae4.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 12
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 1,049
+      </p>
+     </div>
+    </div>
+    <!-- Slide 13 -->
+    <div aria-label="Slide 13 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 62 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/33342060-ba5a-4cdb-d815-de77c2bcac7c.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 62"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,699
+       <del>
+        S/ 2,899
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 67 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/5d4be8a1-4b30-4ed3-e20c-29c01970979e.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 67"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,549
+       <del>
+        S/ 1,589
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 13 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/3e713b11-7aff-44ac-a494-b7a1ddb28b2e.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 13
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 1,099
+      </p>
+     </div>
+    </div>
+    <!-- Slide 14 -->
+    <div aria-label="Slide 14 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 63 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/8bcd6f56-43a5-488f-1173-05bc057be420.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 63"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,799
+       <del>
+        S/ 2,999
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 68 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/55044e3e-f228-4f7a-c991-4f7f462352a2.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 68"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,599
+       <del>
+        S/ 1,639
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 14 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/00d17d35-35a5-478e-45ca-48089690deb3.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 14
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 1,149
+      </p>
+     </div>
+    </div>
+    <!-- Slide 15 -->
+    <div aria-label="Slide 15 de 15" aria-roledescription="slide" class="carousel-slide" role="group">
+     <div class="slide-product">
+      <span class="label">
+       LG 4K
+      </span>
+      <img alt="Televisor LG 4K LED 64 pulgadas con fondo negro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/19124ac5-30ba-459b-d9be-b3d996cbd3d3.jpg" width="280"/>
+      <h3>
+       Televisor LG 4K LED 64"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,899
+       <del>
+        S/ 3,099
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       GRAN CIERRE PUERTAS
+      </span>
+      <img alt="Televisor Samsung QLED 69 pulgadas con fondo azul y texto blanco" height="180" src="https://storage.googleapis.com/a1aa/image/81630115-d507-4380-70aa-4efb3e489a4d.jpg" width="280"/>
+      <h3>
+       Samsung TV QLED 69"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 1,649
+       <del>
+        S/ 1,689
+       </del>
+      </p>
+     </div>
+     <div class="slide-product">
+      <span class="label">
+       OFERTA
+      </span>
+      <img alt="Impresora HP multifuncional modelo 15 con fondo gris oscuro y texto amarillo" height="180" src="https://storage.googleapis.com/a1aa/image/fe4cab46-abed-45e3-58b7-9b50e830b7ef.jpg" width="280"/>
+      <h3>
+       Impresora HP Multifuncional 15
+      </h3>
+      <p class="desc">
+       Impresora, escáner y copiadora
+      </p>
+      <p class="price">
+       S/ 1,199
+      </p>
+     </div>
+    </div>
+   </div>
+   <div aria-label="Controles del carrusel" class="carousel-dots" role="tablist">
+    <!-- 15 dots -->
+    <button aria-label="Ir a slide 1" aria-selected="true" class="active" role="tab" tabindex="0">
+    </button>
+    <button aria-label="Ir a slide 2" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 3" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 4" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 5" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 6" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 7" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 8" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 9" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 10" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 11" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 12" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 13" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 14" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+    <button aria-label="Ir a slide 15" aria-selected="false" role="tab" tabindex="-1">
+    </button>
+   </div>
+  </section>
+  <!-- Categories horizontal scroll -->
+  <section aria-label="Categorías destacadas" class="categories">
+   <div aria-label="Categorías de productos" class="categories-list" role="list">
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Paquete de leche en caja con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/feaaaf00-1a20-408b-60ff-716df3b0dafe.jpg" width="48"/>
+     <span>
+      Leche
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Pieza de carne fresca con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/dda203f4-87e0-4199-e5f1-d401056043d9.jpg" width="48"/>
+     <span>
+      Carne
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Paquete de arroz con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/e1e58d81-50f7-4489-9bbc-8ed0381c5ff6.jpg" width="48"/>
+     <span>
+      Arroz
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Paquete de galletas con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/fcdfd1d4-4ec2-4772-50d6-ea403c45756c.jpg" width="48"/>
+     <span>
+      Galletas
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Botella de refresco con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/8d8bab6f-5887-47e8-a818-28c159d68548.jpg" width="48"/>
+     <span>
+      Refrescos
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Frutas frescas variadas con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/03135aff-3eb7-4cef-5ef3-78c0561f62d4.jpg" width="48"/>
+     <span>
+      Frutas
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Verduras frescas variadas con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/0867fac8-202f-42a9-a6a5-2b57e6d88962.jpg" width="48"/>
+     <span>
+      Verduras
+     </span>
+    </a>
+    <a class="category-item" href="#" role="listitem">
+     <img alt="Panadería con fondo rojo" height="48" src="https://storage.googleapis.com/a1aa/image/26b137fd-2645-446a-6640-46cc707bb6b9.jpg" width="48"/>
+     <span>
+      Panadería
+     </span>
+    </a>
+   </div>
+  </section>
+  <!-- Offers horizontal scroll -->
+  <section aria-label="Ofertas destacadas" class="offers">
+   <div aria-label="Ofertas de productos" class="offers-list" role="list">
+    <div class="offer-card" role="listitem">
+     <img alt="Paquete de detergente con fondo rojo y texto blanco" height="160" src="https://storage.googleapis.com/a1aa/image/95a5f88b-1480-41f9-ea74-14b7174f6489.jpg" width="280"/>
+     <h4>
+      Detergente en polvo
+     </h4>
+     <p>
+      197.90
+     </p>
+    </div>
+    <div class="offer-card" role="listitem">
+     <img alt="Televisor LG 4K LED 50 pulgadas con fondo negro y texto rojo" height="160" src="https://storage.googleapis.com/a1aa/image/ae8aa02c-9936-47be-e0dd-c20a6bb2cfaf.jpg" width="280"/>
+     <h4>
+      Televisor LG 4K LED 50"
+     </h4>
+     <p>
+      S/ 1,499
+     </p>
+    </div>
+    <div class="offer-card" role="listitem">
+     <img alt="Televisor Samsung QLED 55 pulgadas con fondo negro y texto rojo" height="160" src="https://storage.googleapis.com/a1aa/image/584e12a8-ca66-44ee-bb09-6127154fa77a.jpg" width="280"/>
+     <h4>
+      Samsung TV QLED 55"
+     </h4>
+     <p>
+      S/ 949
+     </p>
+    </div>
+   </div>
+  </section>
+  <!-- Discover section -->
+  <section aria-label="Descubre lo esencial de nuestros mundos" class="discover">
+   <div class="discover-card" role="listitem">
+    <img alt="Imagen representativa de lo esencial con fondo rojo" height="100" src="https://storage.googleapis.com/a1aa/image/7a3fb9ed-28b0-4e9f-8224-53c4c3b3d66f.jpg" width="100"/>
+    <p>
+     Descubre lo esencial de nuestros mundos
+    </p>
+   </div>
+   <div class="discover-card" role="listitem">
+    <img alt="Imagen representativa de juegos con fondo rojo" height="100" src="https://storage.googleapis.com/a1aa/image/0b166927-0656-4b1c-2b5b-d5e240647c45.jpg" width="100"/>
+    <p>
+     Juegos
+    </p>
+   </div>
+   <div class="discover-card" role="listitem">
+    <img alt="Imagen representativa de mascotas con fondo rojo" height="100" src="https://storage.googleapis.com/a1aa/image/637c2898-4eeb-482c-5705-be5a9e2d0eaf.jpg" width="100"/>
+    <p>
+     Mascotas
+    </p>
+   </div>
+   <div class="discover-card" role="listitem">
+    <img alt="Imagen representativa de electrodomésticos con fondo rojo" height="100" src="https://storage.googleapis.com/a1aa/image/80d83d02-673c-484e-e228-f02cdcccf806.jpg" width="100"/>
+    <p>
+     Electro
+    </p>
+   </div>
+  </section>
+  <!-- Promotions 20% -->
+  <section aria-label="Promociones 20 por ciento" class="promos-20">
+   <div class="promo-card" role="listitem">
+    <img alt="Promoción 20% en productos Nescafé con fondo rojo" height="120" src="https://storage.googleapis.com/a1aa/image/72d4dfd8-12e5-43ad-1194-acdc1e2eb4e2.jpg" width="200"/>
+    <p>
+     20% de descuento en productos Nescafé
+    </p>
+   </div>
+   <div class="promo-card" role="listitem">
+    <img alt="Promoción 20% en productos Lays con fondo rojo" height="120" src="https://storage.googleapis.com/a1aa/image/9ef13e34-b94b-4e73-c4ef-fe727fc3e543.jpg" width="200"/>
+    <p>
+     20% de descuento en productos Lays
+    </p>
+   </div>
+  </section>
+  <!-- Tabs for categories -->
+  <section aria-label="Categorías principales" class="tabs">
+   <div class="tab-list" role="tablist">
+    <button aria-controls="panel-electro" aria-selected="true" class="tab-btn" id="tab-electro" role="tab" tabindex="0">
+     ELECTRO, TECNOLOGÍA
+    </button>
+    <button aria-controls="panel-supermercado" aria-selected="false" class="tab-btn" id="tab-supermercado" role="tab" tabindex="-1">
+     SUPERMERCADO
+    </button>
+    <button aria-controls="panel-ocasionar" aria-selected="false" class="tab-btn" id="tab-ocasionar" role="tab" tabindex="-1">
+     OCASIONAR
+    </button>
+   </div>
+   <!-- Tab panel Electro -->
+   <div aria-labelledby="tab-electro" class="tab-panel" id="panel-electro" role="tabpanel" tabindex="0">
+    <div class="category-grid">
+     <a href="#" role="listitem">
+      <img alt="Icono TV Video y Audio con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/0e05ec99-34f9-440f-56d4-fc6bf016801d.jpg" width="80"/>
+      <span>
+       TV Video y Audio
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Computo y Accesorios con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/e9c2928a-784f-4143-7642-f1c375da05c7.jpg" width="80"/>
+      <span>
+       Computo y accesorios
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Línea Blanca con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/f75fb3c2-9746-421a-5cbc-0947955c0f84.jpg" width="80"/>
+      <span>
+       Línea blanca
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Pequeños Electrodomésticos con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/8f8c267c-b09a-4764-4d65-bc9b8afc3c6c.jpg" width="80"/>
+      <span>
+       Peq. electrodomésticos
+      </span>
+     </a>
+    </div>
+    <!-- Electro products carousel -->
+    <div class="promo-tab-card" aria-label="Promoción TV Video y Audio">
+     <img alt="Televisor Samsung QLED 55 pulgadas con fondo azul y texto blanco" height="160" src="https://storage.googleapis.com/a1aa/image/d2c8a361-c13c-45d4-6864-6266f07d9b8b.jpg" width="280"/>
+     <div class="info">
+      <h3>
+       Samsung TV QLED 55"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,499
+       <del>
+        S/ 2,699
+       </del>
+      </p>
+      <button type="button">
+       Ver más
+      </button>
+     </div>
+    </div>
+    <!-- Product cards row -->
+    <div class="product-cards" role="list">
+     <article class="product-card" role="listitem">
+      <img alt="Televisor LG 4K LED 50 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/ae8aa02c-9936-47be-e0dd-c20a6bb2cfaf.jpg" width="160"/>
+      <h4>
+       Televisor LG 4K LED 50"
+      </h4>
+      <p class="old-price">
+       S/ 1,699
+      </p>
+      <p class="price">
+       S/ 1,499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Televisor Samsung QLED 55 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/584e12a8-ca66-44ee-bb09-6127154fa77a.jpg" width="160"/>
+      <h4>
+       Samsung TV QLED 55"
+      </h4>
+      <p class="old-price">
+       S/ 989
+      </p>
+      <p class="price">
+       S/ 949
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Impresora HP multifuncional con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/1ca7a52c-dc4c-4cdf-c03d-43a88023ff06.jpg" width="160"/>
+      <h4>
+       Impresora HP Multifuncional
+      </h4>
+      <p class="price">
+       S/ 499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Audífonos Bluetooth con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/2581eeb2-0648-4799-2cb1-53368b23b5ec.jpg" width="160"/>
+      <h4>
+       Audífonos Bluetooth
+      </h4>
+      <p class="price">
+       S/ 199
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+    </div>
+   </div>
+   <!-- Tab panel Supermercado (hidden) -->
+   <div aria-labelledby="tab-supermercado" class="tab-panel" hidden="" id="panel-supermercado" role="tabpanel" tabindex="0">
+    <!-- Content for supermercado tab would go here -->
+
+    <div class="category-grid">
+     <a href="#" role="listitem">
+      <img alt="Icono TV Video y Audio con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/0e05ec99-34f9-440f-56d4-fc6bf016801d.jpg" width="80"/>
+      <span>
+       TV Video y Audio
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Computo y Accesorios con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/e9c2928a-784f-4143-7642-f1c375da05c7.jpg" width="80"/>
+      <span>
+       Computo y accesorios
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Línea Blanca con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/f75fb3c2-9746-421a-5cbc-0947955c0f84.jpg" width="80"/>
+      <span>
+       Línea blanca
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Pequeños Electrodomésticos con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/8f8c267c-b09a-4764-4d65-bc9b8afc3c6c.jpg" width="80"/>
+      <span>
+       Peq. electrodomésticos
+      </span>
+     </a>
+    </div>
+    
+    <!-- Electro products carousel -->
+    <div class="promo-tab-card" aria-label="Promoción TV Video y Audio">
+     <img alt="Televisor Samsung QLED 55 pulgadas con fondo azul y texto blanco" height="160" src="https://storage.googleapis.com/a1aa/image/d2c8a361-c13c-45d4-6864-6266f07d9b8b.jpg" width="280"/>
+     <div class="info">
+      <h3>
+       Samsung TV QLED 55"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,499
+       <del>
+        S/ 2,699
+       </del>
+      </p>
+      <button type="button">
+       Ver más
+      </button>
+     </div>
+    </div>
+    <!-- Product cards row -->
+    <div class="product-cards" role="list">
+     <article class="product-card" role="listitem">
+      <img alt="Televisor LG 4K LED 50 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/ae8aa02c-9936-47be-e0dd-c20a6bb2cfaf.jpg" width="160"/>
+      <h4>
+       Televisor LG 4K LED 50"
+      </h4>
+      <p class="old-price">
+       S/ 1,699
+      </p>
+      <p class="price">
+       S/ 1,499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Televisor Samsung QLED 55 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/584e12a8-ca66-44ee-bb09-6127154fa77a.jpg" width="160"/>
+      <h4>
+       Samsung TV QLED 55"
+      </h4>
+      <p class="old-price">
+       S/ 989
+      </p>
+      <p class="price">
+       S/ 949
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Impresora HP multifuncional con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/1ca7a52c-dc4c-4cdf-c03d-43a88023ff06.jpg" width="160"/>
+      <h4>
+       Impresora HP Multifuncional
+      </h4>
+      <p class="price">
+       S/ 499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Audífonos Bluetooth con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/2581eeb2-0648-4799-2cb1-53368b23b5ec.jpg" width="160"/>
+      <h4>
+       Audífonos Bluetooth
+      </h4>
+      <p class="price">
+       S/ 199
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+    </div>
+
+
+
+
+
+   </div>
+   <!-- Tab panel Ocasional (hidden) -->
+   <div aria-labelledby="tab-ocasionar" class="tab-panel" hidden="" id="panel-ocasionar" role="tabpanel" tabindex="0">
+    <!-- Content for ocasionar tab would go here -->
+
+<div class="category-grid">
+     <a href="#" role="listitem">
+      <img alt="Icono TV Video y Audio con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/0e05ec99-34f9-440f-56d4-fc6bf016801d.jpg" width="80"/>
+      <span>
+       TV Video y Audio
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Computo y Accesorios con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/e9c2928a-784f-4143-7642-f1c375da05c7.jpg" width="80"/>
+      <span>
+       Computo y accesorios
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Línea Blanca con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/f75fb3c2-9746-421a-5cbc-0947955c0f84.jpg" width="80"/>
+      <span>
+       Línea blanca
+      </span>
+     </a>
+     <a href="#" role="listitem">
+      <img alt="Icono Pequeños Electrodomésticos con fondo rojo" height="80" src="https://storage.googleapis.com/a1aa/image/8f8c267c-b09a-4764-4d65-bc9b8afc3c6c.jpg" width="80"/>
+      <span>
+       Peq. electrodomésticos
+      </span>
+     </a>
+    </div>
+    
+    <!-- Electro products carousel -->
+    <div class="promo-tab-card" aria-label="Promoción TV Video y Audio">
+     <img alt="Televisor Samsung QLED 55 pulgadas con fondo azul y texto blanco" height="160" src="https://storage.googleapis.com/a1aa/image/d2c8a361-c13c-45d4-6864-6266f07d9b8b.jpg" width="280"/>
+     <div class="info">
+      <h3>
+       Samsung TV QLED 55"
+      </h3>
+      <p class="desc">
+       Smart TV 4K HDR, 2023
+      </p>
+      <p class="price">
+       S/ 2,499
+       <del>
+        S/ 2,699
+       </del>
+      </p>
+      <button type="button">
+       Ver más
+      </button>
+     </div>
+    </div>
+    <!-- Product cards row -->
+    <div class="product-cards" role="list">
+     <article class="product-card" role="listitem">
+      <img alt="Televisor LG 4K LED 50 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/ae8aa02c-9936-47be-e0dd-c20a6bb2cfaf.jpg" width="160"/>
+      <h4>
+       Televisor LG 4K LED 50"
+      </h4>
+      <p class="old-price">
+       S/ 1,699
+      </p>
+      <p class="price">
+       S/ 1,499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Televisor Samsung QLED 55 pulgadas con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/584e12a8-ca66-44ee-bb09-6127154fa77a.jpg" width="160"/>
+      <h4>
+       Samsung TV QLED 55"
+      </h4>
+      <p class="old-price">
+       S/ 989
+      </p>
+      <p class="price">
+       S/ 949
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Impresora HP multifuncional con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/1ca7a52c-dc4c-4cdf-c03d-43a88023ff06.jpg" width="160"/>
+      <h4>
+       Impresora HP Multifuncional
+      </h4>
+      <p class="price">
+       S/ 499
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+     <article class="product-card" role="listitem">
+      <img alt="Audífonos Bluetooth con fondo negro y texto rojo" height="120" src="https://storage.googleapis.com/a1aa/image/2581eeb2-0648-4799-2cb1-53368b23b5ec.jpg" width="160"/>
+      <h4>
+       Audífonos Bluetooth
+      </h4>
+      <p class="price">
+       S/ 199
+      </p>
+      <button type="button">
+       Agregar
+      </button>
+     </article>
+    </div>
+
+
+
+   </div>
+  </section>
+  
+  <!-- App promotion banner -->
+  <section aria-label="Promoción de la app Metro" class="app-promo">
+   <div class="text">
+    <h2>
+     Conoce los beneficios de nuestra
+    </h2>
+    <h3>
+     APP Metro
+    </h3>
+    <button type="button">
+     Descárgala aquí
+    </button>
+    <div class="stores">
+     <a aria-label="Descargar en Google Play" href="#">
+      <img alt="Botón para descargar en Google Play" height="40" src="https://storage.googleapis.com/a1aa/image/de6e6d80-d249-499b-11dc-bfef8bb71d04.jpg" width="120"/>
+     </a>
+     <a aria-label="Descargar en App Store" href="#">
+      <img alt="Botón para descargar en App Store" height="40" src="https://storage.googleapis.com/a1aa/image/749711e1-4eb5-4601-b7f1-8de2a611ecf8.jpg" width="120"/>
+     </a>
+    </div>
+   </div>
+   <img alt="Imagen de un teléfono móvil mostrando la app Metro con fondo rojo" class="phone" height="160" src="https://storage.googleapis.com/a1aa/image/9162657e-7705-4a76-4957-c10df1762d29.jpg" width="160"/>
+  </section>
+  <!-- Footer legal text -->
+  <section class="legal-text">
+   <p>
+    Valores: Los precios incluyen IGV. Oferta válida del 01 al 30 de junio de 2024 o hasta agotar stock. Las imágenes son referenciales. Metro no se responsabiliza por errores tipográficos o de impresión.
+   </p>
+   <p>
+    Cómo comprar: Compra fácil y segura en nuestra tienda online. Métodos de pago: Tarjetas de crédito, débito y efectivo.
+   </p>
+   <p>
+    Envíos: Envíos a todo el Perú. Consulta tiempos y costos en nuestra web.
+   </p>
+   <p>
+    Atención al cliente: Lunes a domingo de 8:00 a.m. a 10:00 p.m. Teléfono: (01) 630 0000.
+   </p>
+  </section>
+  <!-- Footer icons -->
+  <section class="footer-icons">
+   <div>
+    <i class="fas fa-shopping-cart">
+    </i>
+    <span>
+     Cómo comprar
+    </span>
+   </div>
+   <div>
+    <i class="fas fa-store">
+    </i>
+    <span>
+     Tiendas
+    </span>
+   </div>
+   <div>
+    <i class="fas fa-truck">
+    </i>
+    <span>
+     Envíos
+    </span>
+   </div>
+   <div>
+    <i class="fas fa-credit-card">
+    </i>
+    <span>
+     Pagos
+    </span>
+   </div>
+  </section>
+  <!-- Newsletter subscription -->
+  <section class="newsletter">
+   <p>
+    SUSCRÍBETE AL NEWSLETTER Y RECIBE OFERTAS
+   </p>
+   <form aria-label="Suscripción al newsletter" role="form">
+    <input aria-required="true" placeholder="Ingresa tu email" required="" type="email"/>
+    <button type="submit">
+     SUSCRIBIR
+    </button>
+   </form>
+  </section>
+  <br>
+  <!-- Footer -->
+  <footer class="footer">
+   <div class="footer-container">
+    <div>
+     <img alt="Logo Metro rojo con texto blanco" class="footer-logo" height="40" src="https://storage.googleapis.com/a1aa/image/6f1ad149-a265-4165-2b14-dd70f5ba2a77.jpg" width="120"/>
+     <p>
+      © 2024 Metro. Todos los derechos reservados.
+     </p>
+    </div>
+    <div>
+     <h4>
+      TIENDA ONLINE
+     </h4>
+     <ul>
+      <li>
+       <a href="#">
+        Ofertas
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Catálogo
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Mi cuenta
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Preguntas frecuentes
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Términos y condiciones
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Política de privacidad
+       </a>
+      </li>
+      <li>
+       <a href="#">
+        Contáctanos
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div>
+     <h4>
+      DESCARGA NUESTRA APP
+     </h4>
+     <div class="social-icons">
+      <a aria-label="Descargar en Google Play" href="#">
+       <i class="fab fa-google-play"></i>
+       <img alt="Botón para descargar en Google Play" height="40" src="https://storage.googleapis.com/a1aa/image/de6e6d80-d249-499b-11dc-bfef8bb71d04.jpg" width="120" style="display:none;"/>
+      </a>
+      <a aria-label="Descargar en App Store" href="#">
+       <i class="fab fa-apple"></i>
+       <img alt="Botón para descargar en App Store" height="40" src="https://storage.googleapis.com/a1aa/image/749711e1-4eb5-4601-b7f1-8de2a611ecf8.jpg" width="120" style="display:none;"/>
+      </a>
+     </div>
+     <p>
+      Atención al cliente: (01) 630 0000
+     </p>
+     <div class="social-icons">
+      <a aria-label="Facebook" href="#">
+       <i class="fab fa-facebook-f">
+       </i>
+      </a>
+      <a aria-label="Twitter" href="#">
+       <i class="fab fa-twitter">
+       </i>
+      </a>
+      <a aria-label="Instagram" href="#">
+       <i class="fab fa-instagram">
+       </i>
+      </a>
+      <a aria-label="YouTube" href="#">
+       <i class="fab fa-youtube">
+       </i>
+      </a>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script>
+   (() => {
+      const slidesContainer = document.getElementById("carouselSlides");
+      const dots = document.querySelectorAll(".carousel-dots button");
+      const totalSlides = dots.length;
+      let currentIndex = 0;
+      let intervalId;
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        const offset = -index * 100;
+        slidesContainer.style.transform = `translateX(${offset}%)`;
+        dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.add("active");
+            dot.setAttribute("aria-selected", "true");
+            dot.tabIndex = 0;
+          } else {
+            dot.classList.remove("active");
+            dot.setAttribute("aria-selected", "false");
+            dot.tabIndex = -1;
+          }
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function startAutoSlide() {
+        intervalId = setInterval(nextSlide, 5000);
+      }
+
+      function stopAutoSlide() {
+        clearInterval(intervalId);
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          stopAutoSlide();
+          goToSlide(i);
+          startAutoSlide();
+        });
+        dot.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") {
+            e.preventDefault();
+            let next = (i + 1) % totalSlides;
+            dots[next].focus();
+          } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            let prev = (i - 1 + totalSlides) % totalSlides;
+            dots[prev].focus();
+          }
+        });
+      });
+
+      // Tabs functionality
+      const tabButtons = document.querySelectorAll(".tab-list button");
+      const tabPanels = document.querySelectorAll(".tab-panel");
+
+      tabButtons.forEach((btn, idx) => {
+        btn.addEventListener("click", () => {
+          tabButtons.forEach((b) => {
+            b.setAttribute("aria-selected", "false");
+            b.tabIndex = -1;
+          });
+          tabPanels.forEach((panel) => {
+            panel.hidden = true;
+          });
+          btn.setAttribute("aria-selected", "true");
+          btn.tabIndex = 0;
+          tabPanels[idx].hidden = false;
+          tabPanels[idx].focus();
+        });
+      });
+
+      // Initialize
+      goToSlide(0);
+      startAutoSlide();
+    })();
+  </script>
+ </body>
+</html>
