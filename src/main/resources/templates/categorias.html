@@ -1,0 +1,208 @@
+<html lang="es">
+  <head th:replace="~{/fragments/template :: head}">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-gray-100 font-sans antialiased">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <div class="bg-[#2b4c7e] text-white w-64 p-4 flex flex-col">
+        <div class="flex items-center mb-8">
+          <h2 class="text-2xl">JSTORE</h2>
+        </div>
+        <nav class="flex-1">
+          <ul>
+            <li class="mb-4">
+              <a class="flex items-center p-2 rounded-lg" href="">
+                <i class="fas fa-box mr-3"> </i>
+                Productos
+              </a>
+            </li>
+            <li class="mb-4">
+              <a class="flex items-center p-2" href="">
+                <i class="fas fa-users mr-3"> </i>
+                Usuarios
+              </a>
+            </li>
+            <li class="mb-4">
+              <a
+                class="flex items-center p-2 bg-[#567ebb] rounded-lg"
+                href=""
+              >
+                <i class="fas fa-tags mr-3"> </i>
+                Categorias
+              </a>
+            </li>
+            <li class="mb-4">
+              <a class="flex items-center p-2" href="">
+                <i class="fas fa-file-alt mr-3"> </i>
+                Reportes
+              </a>
+            </li>
+            <li class="mb-4">
+              <a class="flex items-center p-2" href="">
+                <i class="fas fa-shopping-cart mr-3"> </i>
+                Ventas
+              </a>
+            </li>
+            <li class="mb-4">
+              <a class="flex items-center p-2" href="">
+                <i class="fas fa-bullhorn mr-3"> </i>
+                Promociones
+              </a>
+            </li>
+            <li class="mb-4">
+              <a class="flex items-center p-2" href="#">
+                <i class="fas fa-cog mr-3"> </i>
+                Settings
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Main Content -->
+      <div class="flex-1 p-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center space-x-4">
+            <!-- aqui puedo agregar mas links para ideas -->
+          </div>
+          <div class="flex items-center space-x-4">
+            <i class="fas fa-bell text-gray-600"> </i>
+            <i class="fas fa-user-circle text-gray-600"> </i>
+          </div>
+        </div>
+        <!-- Search and Filters -->
+        <div class="flex justify-between items-center mb-6">
+          <div
+            class="flex items-center bg-white p-2 rounded-lg shadow-md w-1/2"
+          >
+            <input
+              class="flex-1 p-2 outline-none"
+              placeholder="Search client"
+              type="text"
+            />
+            <i class="fas fa-search text-gray-600"> </i>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button class="bg-white p-2 rounded-lg shadow-md flex items-center">
+              <i class="fas fa-filter text-gray-600 mr-2"> </i>
+              FILTERS
+            </button>
+            <button
+              class="bg-[#2b4c7e] text-white p-2 rounded-lg shadow-md flex items-center"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              <i class="fas fa-plus text-white mr-2"> </i>
+              NUEVA CATEGORIA
+            </button>
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1
+                      class="modal-title fs-5 font-sans"
+                      id="exampleModalLabel"
+                    >
+                      CREAR NUEVA CATEGORIA
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="post" action="/categorias/guardar">
+                      <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label"
+                          >Nombre</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="formGroupExampleInput"
+                          name="nombre"
+                          placeholder="Ingresa aqui el nombre"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label"
+                          >Descripcion</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="formGroupExampleInput2"
+                          name="descripcion"
+                          placeholder="Ingresa aqui la descripcion"
+                        />
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="submit"
+                          class="btn bg-[#2b4c7e] hover:bg-[#567ebb] text-white"
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<!-- <table border="1" style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Tamaño</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.id}"></td>
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.descripcion}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.tamaño}"></td>
+            </tr>
+        </tbody>
+    </table> -->
