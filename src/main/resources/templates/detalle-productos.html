@@ -39,7 +39,7 @@
         </a>
        </li>
        <li class="mb-4">
-        <a class="flex items-center p-2 bg-[#567ebb] rounded-lg" href="detalle-productos">
+        <a class="flex items-center p-2 bg-[#DE523A] rounded-lg" href="detalle-productos">
             <i class="fas fa-file-alt mr-3">
             </i>
          Reportes
@@ -149,7 +149,7 @@
                                       <label for="ventaInput" class="form-label">Venta</label>
                                       <select class="form-select" id="ventaInput" name="id_venta" required>
                                           <option value="" disabled>Seleccione una venta</option>
-                                          //<option th:each="venta : ${ventas}" th:value="${venta.id_venta}" th:text="${venta.id_venta}" th:selected="${detalle.venta.id_venta == venta.id_venta}"></option>
+                                          <option th:each="venta : ${ventas}" th:value="${venta.id_venta}" th:text="${venta.id_venta}" th:selected="${detalle.venta.id_venta == venta.id_venta}"></option>
                                       </select>
                                   </div>
                                   <div class="mb-3">

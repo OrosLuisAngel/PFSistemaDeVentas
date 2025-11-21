@@ -9,51 +9,51 @@
 
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="bg-[#2b4c7e] text-white w-64 p-4 flex flex-col">
+    <div class="bg-[#cc0000] text-white w-64 p-4 flex flex-col">
      <div class="flex items-center mb-8">
     <h2 class="text-2xl">
-       JSTORE
+       Bodeha
       </h2>
      </div>
      <nav class="flex-1">
       <ul>
         <li class="mb-4">
-          <a class="flex items-center p-2" href="">
+          <a class="flex items-center p-2" href="productos">
            <i class="fas fa-box mr-3">
            </i>
            Productos
           </a>
          </li>
        <li class="mb-4">
-        <a class="flex items-center p-2 bg-[#567ebb] rounded-lg" href="">
+        <a class="flex items-center p-2 bg-[#DE523A] rounded-lg" href="usuarios">
          <i class="fas fa-users mr-3">
          </i>
          Usuarios
         </a>
        </li>
        <li class="mb-4">
-        <a class="flex items-center p-2" href="">
+        <a class="flex items-center p-2" href="categorias">
             <i class="fas fa-tags mr-3">
             </i>
          Categorias
         </a>
        </li>
        <li class="mb-4">
-        <a class="flex items-center p-2" href="">
+        <a class="flex items-center p-2" href="detalle-productos">
             <i class="fas fa-file-alt mr-3">
             </i>
          Reportes
         </a>
        </li>
        <li class="mb-4">
-        <a class="flex items-center p-2" href="vetas">
+        <a class="flex items-center p-2" href="ventas">
             <i class="fas fa-shopping-cart mr-3">
             </i>
          Ventas
         </a>
        </li>
        <li class="mb-4">
-        <a class="flex items-center p-2" href="">
+        <a class="flex items-center p-2" href="promociones">
             <i class="fas fa-bullhorn mr-3">
             </i>
          Promociones
@@ -95,7 +95,7 @@
         </i>
         FILTERS
        </button>
-       <button class="bg-[#2b4c7e] text-white p-2 rounded-lg shadow-md flex items-center" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+       <button class="bg-[#cc0000] text-white p-2 rounded-lg shadow-md flex items-center" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <i class="fas fa-plus text-white mr-2">
         </i>
         NEW USUARIO
@@ -157,7 +157,102 @@
       </div>
      </div>
      <div class="bg-white rounded-lg shadow-md p-4">
-      
+      <table class="w-full">
+  <thead>
+    <tr class="text-left text-gray-600">
+      <th>Id_Usuario</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Contraseña</th>
+                <th>Teléfono</th>
+                <th>Ciudad</th>
+                <th>País</th>
+                <th>Rol</th>
+      <th class="mx-auto text-center">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="usuario : ${usuarios}">
+      <td class="flex items-center"><i class="fas fa-user-circle text-green-500 mr-2"></i>[[${usuario.id_usuario}]]</td>
+                <td th:text="${usuario.nombre}"></td>
+                <td th:text="${usuario.apellido}"></td>
+                <td th:text="${usuario.email}"></td>
+                <td th:text="${usuario.password}"></td>
+                <td th:text="${usuario.telefono}"></td>
+                <td th:text="${usuario.ciudad}"></td>
+                <td th:text="${usuario.pais}"></td>
+                <td>
+                  <span th:text="${usuario.rol != null ? usuario.rol.rol : 'Sin rol'}"></span>
+                </td>
+                <td class="flex space-x-2 mx-auto center">
+                    <div class="flex space-x-4 mx-auto center space-y-1">
+                    <button class="text-blue-500" data-bs-toggle="modal" th:data-bs-target="'#editarModal' + ${usuario.id_usuario}">
+                      <i class="fas fa-pen"></i>
+                  </button>
+                  <form th:action="@{/usuarios/eliminar/{id_usuario}(id_usuario=${usuario.id_usuario})}" th:method="delete">
+                      <button class="text-red-500" type="submit">
+                          <i class="fas fa-trash"></i>
+                      </button>
+                  </form>
+                </div>
+                </td>
+          </form>
+          <div class="modal fade" th:id="'editarModal' + ${usuario.id_usuario}" tabindex="-1" aria-labelledby="editarModalLabel[[${usuario.id_usuario}]]" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" th:id="'editarModalLabel' + ${usuario.id_usuario}">Editar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" th:action="@{/usuarios/actualizar/{id_usuario}(id_usuario=${usuario.id_usuario})}">
+    <div class="mb-3">
+        <label for="nombreInput" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombreInput" name="nombre" th:value="${usuario.nombre}" required>
+    </div>
+    <div class="mb-3">
+        <label for="apellidoInput" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="apellidoInput" name="apellido" th:value="${usuario.apellido}" required>
+    </div>
+    <div class="mb-3">
+        <label for="correoInput" class="form-label">Correo</label>
+        <input type="email" class="form-control" id="correoInput" name="email" th:value="${usuario.email}" required>
+    </div>
+    <div class="mb-3">
+        <label for="passwordInput" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="passwordInput" name="password" th:value="${usuario.password}" required>
+    </div>
+    <div class="mb-3">
+        <label for="telefonoInput" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" id="telefonoInput" name="telefono" th:value="${usuario.telefono}" required>
+    </div>
+    <div class="mb-3">
+        <label for="ciudadInput" class="form-label">Ciudad</label>
+        <input type="text" class="form-control" id="ciudadInput" name="ciudad" th:value="${usuario.ciudad}" required>
+    </div>
+    <div class="mb-3">
+        <label for="paisInput" class="form-label">País</label>
+        <input type="text" class="form-control" id="paisInput" name="pais" th:value="${usuario.pais}" required>
+    </div>
+    <div class="mb-3">
+        <label for="rolInput" class="form-label">Rol</label>
+        <select class="form-select" id="rolInput" name="id_rol" required>
+            <option value="" disabled>Elija el rol</option>
+            <option th:each="rol : ${roles}" th:value="${rol.id_rol}" th:text="${rol.rol}" 
+                th:selected="${usuario.rol != null and rol.id_rol == usuario.rol.id_rol}"></option>
+        </select>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn bg-[#2b4c7e] hover:bg-[#567ebb] text-white">Guardar cambios</button>
+    </div>
+</form>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
      </div>
     </div>
    </div>

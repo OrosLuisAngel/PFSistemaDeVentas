@@ -1,0 +1,190 @@
+<html lang="es">
+<head th:replace="~{/fragments/template :: head}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="bg-[#cc0000] text-white w-64 p-4 flex flex-col">
+        <div class="flex items-center mb-8">
+            <h2 class="text-2xl">Bodeha</h2>
+        </div>
+        <nav class="flex-1">
+            <ul>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="productos">
+                        <i class="fas fa-box mr-3"></i> Productos
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="usuarios">
+                        <i class="fas fa-users mr-3"></i> Usuarios
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="categorias">
+                        <i class="fas fa-tags mr-3"></i> Categorías
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="detalle-productos">
+                        <i class="fas fa-file-alt mr-3"></i> Reportes
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2 bg-[#DE523A] text-whiterounded-lg" href="#">
+                        <i class="fas fa-shopping-cart mr-3"></i> Ventas
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="promociones">
+                        <i class="fas fa-bullhorn mr-3"></i> Promociones
+                    </a>
+                </li>
+                <li class="mb-4">
+                    <a class="flex items-center p-2" href="#">
+                        <i class="fas fa-cog mr-3"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center space-x-4">
+                <!-- aqui puedo agregar mas links para ideas -->
+            </div>
+            <div class="flex items-center space-x-4">
+                <i class="fas fa-bell text-gray-600"></i>
+                <i class="fas fa-user-circle text-gray-600"></i>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center bg-white p-2 rounded-lg shadow-md w-1/2">
+                <input class="flex-1 p-2 outline-none" placeholder="Buscar venta" type="text"/>
+                <i class="fas fa-search text-gray-600"></i>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button class="bg-white p-2 rounded-lg shadow-md flex items-center">
+                <i class="fas fa-filter text-gray-600 mr-2">
+                </i>
+                FILTERS
+                </button>
+                <!-- Botón para abrir el modal -->
+                <button class="bg-[#cc0000] text-white p-2 rounded-lg shadow-md flex items-center" type="button" data-bs-toggle="modal" data-bs-target="#crearVentaModal">
+                    <i class="fas fa-plus text-white mr-2"></i> NUEVA VENTA
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="crearVentaModal" tabindex="-1" aria-labelledby="crearVentaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5 font-sans" id="crearVentaModalLabel">CREAR NUEVA VENTA</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Formulario para guardar una nueva venta -->
+                                <form method="post" action="/ventas/guardar">
+                                    <div class="mb-3">
+                                        <label for="usuarioInput" class="form-label">Usuario</label>
+                                        <select class="form-select" id="usuarioInput" name="id_usuario" required>
+                                            <option value="" disabled selected>Seleccione un usuario</option>
+                                            <option th:each="usuario : ${usuarios}" th:value="${usuario.id_usuario}" th:text="${usuario.nombre}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fechaInput" class="form-label">Fecha</label>
+                                        <input type="date" class="form-control" id="fechaInput" name="fecha_venta" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="totalInput" class="form-label">Total</label>
+                                        <input type="number" class="form-control" id="totalInput" name="total_venta" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Ventas -->
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <table class="w-full">
+                <thead>
+                <tr class="text-left text-gray-600">
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(ventas)}">
+                    <td colspan="5" class="text-center">No hay ventas disponibles.</td>
+                </tr>
+                <tr th:each="venta : ${ventas}">
+                    <td class="flex items-center"><i class="fas fa-plus-circle text-green-500 mr-2"></i>[[${venta.id_venta}]]</td>
+                    <td th:text="${venta.usuario != null ? venta.usuario.nombre : 'Sin usuario'}"></td>
+                    <td th:text="${venta.fecha_venta}"></td>
+                    <td th:text="${venta.total_venta}"></td>
+                    <td class="flex space-x-2">
+                        <button class="text-blue-500" data-bs-toggle="modal" th:data-bs-target="'#editarModal' + ${venta.id_venta}">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <form class="flex space-x-2 mt-3" th:action="@{/ventas/eliminar/{id_venta}(id_venta=${venta.id_venta})}" th:method="delete">
+                            <button class="text-red-500" type="submit">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        <div class="modal fade" th:id="'editarModal' + ${venta.id_venta}" tabindex="-1" aria-labelledby="editarModalLabel[[${venta.id_venta}]]" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editarModalLabel">Editar Venta</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/ventas/actualizar/{id_venta}(id_venta=${venta.id_venta})}" method="post">
+                                            <input type="hidden" name="_method" value="put" />
+                                            <div class="mb-3">
+                                                <label for="usuarioInput" class="form-label">Usuario</label>
+                                                <select class="form-select" id="usuarioInput" name="id_usuario" required>
+                                                    <option value="" disabled selected>Seleccione un usuario</option>
+                                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id_usuario}" th:text="${usuario.nombre}" 
+                                                        th:selected="${venta.usuario.id_usuario == usuario.id_usuario}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="fechaInput" class="form-label">Fecha</label>
+                                                <input type="date" class="form-control" id="fechaInput" name="fecha_venta" th:value="${venta.fecha_venta}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="totalInput" class="form-label">Total</label>
+                                                <input type="number" class="form-control" id="totalInput" name="total_venta" th:value="${venta.total_venta}" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

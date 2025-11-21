@@ -13,47 +13,47 @@
   <body class="bg-gray-100 font-sans antialiased">
     <div class="flex h-screen">
       <!-- Sidebar -->
-      <div class="bg-[#2b4c7e] text-white w-64 p-4 flex flex-col">
+      <div class="bg-[#cc0000] text-white w-64 p-4 flex flex-col">
         <div class="flex items-center mb-8">
-          <h2 class="text-2xl">JSTORE</h2>
+          <h2 class="text-2xl">Bodeha</h2>
         </div>
         <nav class="flex-1">
           <ul>
             <li class="mb-4">
               <a
-                class="flex items-center p-2 bg-[#567ebb] rounded-lg"
-                href=""
+                class="flex items-center p-2 bg-[#DE523A] rounded-lg"
+                href="productos"
               >
                 <i class="fas fa-box mr-3"></i>
                 Productos
               </a>
             </li>
             <li class="mb-4">
-              <a class="flex items-center p-2" href="">
+              <a class="flex items-center p-2" href="usuarios">
                 <i class="fas fa-users mr-3"></i>
                 Usuarios
               </a>
             </li>
             <li class="mb-4">
-              <a class="flex items-center p-2" href="">
+              <a class="flex items-center p-2" href="categorias">
                 <i class="fas fa-tags mr-3"></i>
                 Categorias
               </a>
             </li>
             <li class="mb-4">
-              <a class="flex items-center p-2" href="">
+              <a class="flex items-center p-2" href="detalle-productos">
                 <i class="fas fa-file-alt mr-3"></i>
                 Reportes
               </a>
             </li>
             <li class="mb-4">
-              <a class="flex items-center p-2" href="">
+              <a class="flex items-center p-2" href="ventas">
                 <i class="fas fa-shopping-cart mr-3"></i>
                 Ventas
               </a>
             </li>
             <li class="mb-4">
-              <a class="flex items-center p-2" href="">
+              <a class="flex items-center p-2" href="promociones">
                 <i class="fas fa-bullhorn mr-3"></i>
                 Promociones
               </a>
@@ -96,7 +96,7 @@
               FILTERS
             </button>
             <button
-              class="bg-[#2b4c7e] text-white p-2 rounded-lg shadow-md flex items-center"
+              class="bg-[#cc0000] text-white p-2 rounded-lg shadow-md flex items-center"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
@@ -228,7 +228,187 @@
         </div>
         <!--  tabla -->
         <div class="bg-white rounded-lg shadow-md p-4">
-          
+          <table class="w-full">
+            <thead>
+              <tr class="text-left text-gray-600">
+                <th>Id_Producto</th>
+                <th>Id_Categoria</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Tamaño</th>
+                <th>imagen</th>
+                <th class="mx-auto text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="producto : ${productos}">
+                <td class="">
+                  <i class="fas fa-plus-circle text-green-500 mr-2"></i
+                  >[[${producto.id_producto}]]
+                </td>
+                <td
+                  class="items-center"
+                  th:text="${producto.categoria != null ? producto.categoria.id_categoria : 'Sin categoría'}"
+                ></td>
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.descripcion}"></td>
+                <td>S/ [[${producto.precio}]]</td>
+                <td th:text="${producto.tamaño}"></td>
+                <td>
+                  <img
+                    th:src="${producto.imagen_url}"
+                    alt="Imagen del producto"
+                    style="max-width: 100px; max-height: 100px"
+                  />
+                </td>
+                <td class="flex space-x-2 mx-auto my-auto">
+                  <div class="mx-auto flex">
+                    <button
+                      class="text-blue-500"
+                      data-bs-toggle="modal"
+                      th:data-bs-target="'#editarModal' + ${producto.id_producto}"
+                    >
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <form
+                      class="space-x-2 mt-3"
+                      th:action="@{/productos/eliminar/{id_producto}(id_producto=${producto.id_producto})}"
+                      th:method="delete"
+                    >
+                      <button class="text-red-500" type="submit">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                    <div
+                      class="modal fade"
+                      id="editarModal1"
+                      th:id="'editarModal' + ${producto.id_producto}"
+                      tabindex="-1"
+                      aria-labelledby="editarModalLabel[[${producto.id_producto}]]"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1
+                              class="modal-title fs-5"
+                              th:id="'editarModalLabel' + ${producto.id_producto}"
+                            >
+                              EDITAR PRODUCTOS
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <form
+                              method="post"
+                              th:action="@{/productos/actualizar/{id_producto}(id_producto=${producto.id_producto})}"
+                            >
+                              <div class="mb-3">
+                                <label for="categoriaInput" class="form-label"
+                                  >Categoria</label
+                                >
+                                <select
+                                  class="form-select form-select-sm"
+                                  id="categoriaInput"
+                                  name="id_categoria"
+                                  th:value="${producto.categoria != null ? producto.categoria.id_categoria : ''}"
+                                  required
+                                >
+                                  <option value="" disabled>
+                                    Elija la categoria
+                                  </option>
+                                  <option
+                                    th:each="categoria : ${categorias}"
+                                    th:value="${categoria.id_categoria}"
+                                    th:text="${categoria.nombre}"
+                                  ></option>
+                                </select>
+                              </div>
+                              <div class="mb-3">
+                                <label for="nombreInput" class="form-label"
+                                  >Nombre</label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="nombreInput"
+                                  name="nombre"
+                                  th:value="${producto.nombre}"
+                                  required
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="descripcionInput" class="form-label"
+                                  >Descripcion</label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="descripcionInput"
+                                  name="descripcion"
+                                  th:value="${producto.descripcion}"
+                                  required
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="precioInput" class="form-label"
+                                  >Precio</label
+                                >
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  id="precioInput"
+                                  name="precio"
+                                  th:value="${producto.precio}"
+                                  step="0.01"
+                                  required
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="tamañoInput" class="form-label"
+                                  >Tamaño</label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="tamañoInput"
+                                  name="tamaño"
+                                  th:value="${producto.tamaño}"
+                                  required
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="imagenInput" class="form-label"
+                                  >Imagen URL</label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="imagenInput"
+                                  name="imagen_url"
+                                  th:value="${producto.imagen_url}"
+                                  required
+                                />
+                              </div>
+                              <button type="submit" class="btn bg-danger">
+                                Guardar cambios
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
