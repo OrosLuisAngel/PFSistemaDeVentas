@@ -10,4 +10,5 @@ public class SistemaventasApplication {
 		SpringApplication.run(SistemaventasApplication.class, args);
 	}
 
+	// se tiene que agregar inserciones de rol
 }
