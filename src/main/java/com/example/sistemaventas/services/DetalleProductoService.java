@@ -2,6 +2,7 @@ package com.example.sistemaventas.services;
 
 import com.example.sistemaventas.entity.DetalleProducto;
 import com.example.sistemaventas.repository.DetalleProductoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
